@@ -1,5 +1,14 @@
 package se.lexckon.jpaworkshop.Dao;
 
+import se.lexckon.jpaworkshop.entity.AppUser;
+import se.lexckon.jpaworkshop.entity.Details;
+
+import java.util.List;
+
 public interface DetailsDao {
-    // TODO: 1/19/2023  
+    Details findById(int id);
+    List<Details> findAll();
+    Details create();
+    Details uppDate();
+    void delete();
 }

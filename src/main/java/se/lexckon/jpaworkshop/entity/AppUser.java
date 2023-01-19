@@ -17,7 +17,7 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
     private LocalDate regDate;
-    @OneToOne
+    @OneToOne(mappedBy= "AppUser")
     private Details details;
 
     public AppUser() {

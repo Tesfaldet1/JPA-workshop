@@ -17,12 +17,11 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
     private LocalDate regDate;
-    @OneToOne(mappedBy= "AppUser")
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(name = "details_Id")
     private Details details;
 
     public AppUser() {
-        this.appUserId= appUserId;
-        this.regDate = regDate;
     }
 
     public AppUser(String userName, String password, LocalDate regDate) {

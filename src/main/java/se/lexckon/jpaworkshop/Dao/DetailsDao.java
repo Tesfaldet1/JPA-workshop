@@ -8,7 +8,7 @@ import java.util.List;
 public interface DetailsDao {
     Details findById(int id);
     List<Details> findAll();
-    Details create();
-    Details uppDate();
-    void delete();
+    Details create(Details details);
+    Details uppDate(Details details);
+    void delete(int id);
 }

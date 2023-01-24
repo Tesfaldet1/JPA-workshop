@@ -5,22 +5,22 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "DB_Details")
+//@Table(name = "DB_Details")
 
 public class Details {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false) // if you do not want to update the id
-    private int detailsId;
+    private int id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String email;
     private LocalDate birthDate;
+    @OneToOne(mappedBy = "details")
+    private AppUser appUser;
 
     public Details() {
-        this.detailsId = detailsId;
-        this.birthDate = birthDate;
     }
 
     public Details(String name, String email) {
@@ -29,12 +29,20 @@ public class Details {
         this.name = name;
     }
 
+    public Details( String name, String email, LocalDate birthDate, AppUser appUser) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.appUser = appUser;
+    }
+
     public int getDetailsId() {
-        return detailsId;
+        return id;
     }
 
     public void setDetailsId(int detailsId) {
-        this.detailsId = detailsId;
+        this.id = id;
     }
 
     public String getName() {
@@ -61,16 +69,24 @@ public class Details {
         this.birthDate = birthDate;
     }
 
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Details details = (Details) o;
-        return detailsId == details.detailsId && name.equals(details.name) && email.equals(details.email) && Objects.equals(birthDate, details.birthDate);
+        return id == details.id && name.equals(details.name) && email.equals(details.email) && Objects.equals(birthDate, details.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(detailsId, name, email, birthDate);
+        return Objects.hash(id, name, email, birthDate);
     }
 }

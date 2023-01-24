@@ -7,8 +7,8 @@ import java.util.List;
 public interface AppUserDao {
     AppUser findById(int id);
     List<AppUser> findAll();
-    AppUser create();
-    AppUser uppDate();
-    void delete();
+    AppUser create(AppUser appUser);
+    AppUser uppDate(AppUser appUser);
+    void delete(int id);
 
 }

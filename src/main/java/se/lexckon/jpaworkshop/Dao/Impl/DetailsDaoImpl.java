@@ -1,6 +1,7 @@
 package se.lexckon.jpaworkshop.Dao.Impl;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexckon.jpaworkshop.Dao.DetailsDao;
 import se.lexckon.jpaworkshop.entity.Details;
 
@@ -18,6 +19,7 @@ public class DetailsDaoImpl implements DetailsDao {
     }
 
     @Override
+
     public List<Details> findAll() {
         return entityManager
                 .createQuery("select d from Details d", Details.class)
@@ -25,18 +27,23 @@ public class DetailsDaoImpl implements DetailsDao {
     }
 
     @Override
-    public Details create() {
-        return null;
+    @Transactional
+    public Details create(Details details) {
+        entityManager.persist(details);
+        return details;
     }
 
     @Override
-    public Details uppDate() {
-        return null;
+    @Transactional(readOnly = true)
+    public Details uppDate(Details details) {
+
+        return  entityManager.merge(details);
     }
 
     @Override
-    public void delete() {
-
+    @Transactional
+    public void delete(int id) {
+        entityManager.remove(entityManager.find(Details.class, id));
     }
-    // todo
+
 }

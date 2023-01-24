@@ -21,6 +21,10 @@ public class AppUser {
     @JoinColumn(name = "details_Id")
     private Details details;
 
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "BookLoan_id")
+    private  BookLoan loan;
+
     public AppUser() {
     }
 
@@ -66,6 +70,15 @@ public class AppUser {
     public void setDetails(Details details) {
         this.details = details;
     }
+
+    public BookLoan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(BookLoan loan) {
+        this.loan = loan;
+    }
+
 
     @Override
     public boolean equals(Object o) {

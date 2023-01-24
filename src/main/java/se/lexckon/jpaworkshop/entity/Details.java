@@ -12,10 +12,11 @@ public class Details {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false) // if you do not want to update the id
     private int id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 80)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String email;
+    @Column(nullable = false)
     private LocalDate birthDate;
     @OneToOne(mappedBy = "details")
     private AppUser appUser;

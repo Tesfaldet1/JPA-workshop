@@ -20,14 +20,25 @@ public class AppCommandLineRunner implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+
+test1();
+
+    }
+    public  void test1(){
         AppUser appUserData = new AppUser("Nuna", "nuna123", LocalDate.now());
         AppUser createdAppUser = appUserDao.create(appUserData);
+
+
+        Details detailsData = new Details("Tesfaldet", "tweldemicheal@gmail.com",
+                LocalDate.parse("1989-10-10"),appUserData);
+        Details createdDetails = detailsDao.create(detailsData);
+
+
+        appUserData.setDetails(createdDetails);
         System.out.println(createdAppUser);
 
-        Details detailsData = new Details("Tesfaldet", "tweldemicheal@gmail.com",LocalDate.parse("1989-10-10"),appUserData);
-        Details createdDetails = appUserData.getDetails();
-        System.out.println(createdDetails);
-
+    }
+    public void test2(){
 
     }
 }

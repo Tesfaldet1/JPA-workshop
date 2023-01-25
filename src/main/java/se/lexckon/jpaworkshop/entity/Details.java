@@ -35,7 +35,15 @@ public class Details {
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
-        this.appUser = appUser;
+        setAppUser(appUser);
+    }
+
+    public Details( String name, String email, LocalDate birthDate) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+
     }
 
     public int getDetailsId() {

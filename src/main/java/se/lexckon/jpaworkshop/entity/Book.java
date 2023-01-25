@@ -5,6 +5,7 @@ import java.util.Objects;
 
 @Entity
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false) // if you do not want to update the id
@@ -23,13 +24,20 @@ public class Book {
     }
 
     public Book(String isbn, String title, int maxLoanDays) {
-        this();
         this.isbn = isbn;
         this.title = title;
         this.maxLoanDays = maxLoanDays;
     }
 
+    public Book(String isbn, String title, int maxLoanDays, BookLoan listOfBook) {
+        this.isbn = isbn;
+        this.title = title;
+        this.maxLoanDays = maxLoanDays;
+        this.listOfBook = listOfBook;
+    }
+
     public Book(int id, String isbn, String title, int maxLoanDays) {
+        this();
         this.id = id;
         this.isbn = isbn;
         this.title = title;

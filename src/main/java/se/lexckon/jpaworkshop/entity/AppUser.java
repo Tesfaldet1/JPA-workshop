@@ -2,6 +2,8 @@ package se.lexckon.jpaworkshop.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,16 +25,18 @@ public class AppUser {
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "BookLoan_id")
-    private  BookLoan loan;
+    private BookLoan loan;
 
     public AppUser() {
     }
 
-    public AppUser(String userName, String password, LocalDate regDate) {
+    public AppUser(String userName, String password, LocalDate regDate, Details details) {
         this();
         this.userName = userName;
         this.password = password;
         this.regDate = regDate;
+        setDetails(details);
+
     }
 
     public int getAppUserId() {

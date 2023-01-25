@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "DB_AppUser")
+//@Table(name = "DB_AppUser")
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +23,8 @@ public class AppUser {
     @JoinColumn(name = "details_Id")
     private Details details;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "BookLoan_id")
-    private BookLoan loan;
+    @OneToMany(mappedBy ="borrower",orphanRemoval = true )
+    private List<BookLoan> loan;
 
     public AppUser() {
     }
@@ -75,13 +74,28 @@ public class AppUser {
         this.details = details;
     }
 
-    public BookLoan getLoan() {
+    public List<BookLoan> getLoan() {
         return loan;
     }
 
-    public void setLoan(BookLoan loan) {
+    public void setLoan(List<BookLoan> loan) {
         this.loan = loan;
     }
+
+    public  void addLoanBook(BookLoan bookLoan){
+        if(bookLoan == null) throw  new IllegalArgumentException("the BookLoan Data was null");
+        if(loan ==null) loan = new ArrayList<>();
+        loan.add(bookLoan);
+        bookLoan.setBorrower(this);
+    }
+    public void removeBookLoan(BookLoan bookLoan){
+        if(bookLoan == null) throw new IllegalArgumentException("The book loan Data was null");
+        if(loan!=null) {
+            bookLoan.setBorrower(null);
+            loan.remove(bookLoan);
+        }
+    }
+
 
 
     @Override

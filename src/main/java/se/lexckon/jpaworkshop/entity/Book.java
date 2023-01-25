@@ -1,7 +1,7 @@
 package se.lexckon.jpaworkshop.entity;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Book {
@@ -16,10 +16,11 @@ public class Book {
     private  String title;
     @Column(nullable = false)
     private  int maxLoanDays;
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "BookLoan_id")
-    private  BookLoan listOfBook;
+    @OneToMany(mappedBy = "bookLoan",orphanRemoval = true)
+    private List<BookLoan> listOfBook;
 
+    @ManyToMany
+    private Set<Author> authorSet;
     public Book() {
     }
 
@@ -29,12 +30,6 @@ public class Book {
         this.maxLoanDays = maxLoanDays;
     }
 
-    public Book(String isbn, String title, int maxLoanDays, BookLoan listOfBook) {
-        this.isbn = isbn;
-        this.title = title;
-        this.maxLoanDays = maxLoanDays;
-        this.listOfBook = listOfBook;
-    }
 
     public Book(int id, String isbn, String title, int maxLoanDays) {
         this();
@@ -76,13 +71,39 @@ public class Book {
         this.maxLoanDays = maxLoanDays;
     }
 
-    public BookLoan getListOfBook() {
+    public List<BookLoan> getListOfBook() {
+        if(listOfBook == null) listOfBook = new ArrayList<>();
         return listOfBook;
     }
 
-    public void setListOfBook(BookLoan listOfBook) {
+    public void setListOfBook(List<BookLoan> listOfBook) {
         this.listOfBook = listOfBook;
     }
+
+    public Set<Author> getAuthorSet() {
+        if(authorSet ==null) authorSet= new HashSet<>();
+        return authorSet;
+    }
+
+    public void setAuthorSet(Set<Author> authorSet) {
+        this.authorSet = authorSet;
+    }
+    public void addAuthor(Author author){
+        if(author == null)throw new IllegalArgumentException("the author data was null");
+        if(authorSet==null)authorSet= new HashSet<>();
+        authorSet.add(author);
+        author.getWrittenBooks().add(this);
+    }
+
+
+    public void removeAuthor(Author author){
+        if(author == null) throw new IllegalArgumentException("Th author data was null");
+        if(authorSet !=null)
+        author.getWrittenBooks().remove(this);
+        authorSet.remove(author);
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

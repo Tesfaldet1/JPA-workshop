@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class BookLoan {
@@ -16,10 +17,18 @@ public class BookLoan {
     private LocalDate loanDate;
     private  LocalDate dueDate;
     private boolean returned;
-    @OneToMany(mappedBy ="loan",orphanRemoval = true )
-    private List<AppUser> appUserList;
-    @OneToMany(mappedBy ="listOfBook",orphanRemoval = true )
-    private List<Book> bookList;
+
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "AppUser_id")
+    private AppUser borrower;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "book_id")
+    private Book bookLoan;
+
+
+
 
     public BookLoan() {
     }
@@ -35,12 +44,12 @@ public class BookLoan {
         this.dueDate = dueDate;
     }
 
-    public BookLoan(int loanId, LocalDate loanDate, LocalDate dueDate, boolean returned, List<BookLoan> bookLoans) {
+    public BookLoan(int loanId, LocalDate loanDate, LocalDate dueDate, boolean returned) {
         this.loanId = loanId;
         this.loanDate = loanDate;
         this.dueDate = dueDate;
         this.returned = returned;
-        this.bookList = bookList;
+
     }
 
     public int getLoanId() {
@@ -75,48 +84,20 @@ public class BookLoan {
         this.returned = returned;
     }
 
-    public List<AppUser> getAppUserList() {
-        return appUserList;
+    public AppUser getBorrower() {
+        return borrower;
     }
 
-    public void setAppUserList(List<AppUser> appUserList) {
-        this.appUserList = appUserList;
+    public void setBorrower(AppUser borrower) {
+        this.borrower = borrower;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Book getBook() {
+        return bookLoan;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
-    }
-    public void LoanBook(Book book){
-        if(book ==null) throw new IllegalArgumentException("LoanBook data was null");
-        if(bookList== null) bookList = new ArrayList<>();
-        bookList.add(book);
-        book.setListOfBook(this);
-    }
-    public  void returnBook(AppUser appUser){
-        if(appUser == null) throw  new IllegalArgumentException("LoanBook was null");
-        if(bookList != null){
-            appUser.setLoan(null);
-            bookList.remove(appUser);
-        }
-    }
-    public  void UserLoanBook(AppUser appUser){
-        if(appUser==null) throw new IllegalArgumentException("the appUser data was null");
-        if(appUserList!= null){
-            appUser.setLoan(null);
-            appUserList.add(appUser);
-            appUser.setLoan(this);
-        }
-    }
-    public void returnUserBook(AppUser appUser){
-        if(appUser==null)throw new IllegalArgumentException("the App user data was null");
-        if(appUserList!=null){
-            appUser.setLoan(null);
-            appUserList.remove(appUser);
-        }
+    public void setBook(Book bookLoan) {
+        this.bookLoan = bookLoan;
     }
 
     @Override
@@ -124,12 +105,16 @@ public class BookLoan {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookLoan bookLoan = (BookLoan) o;
-        return loanId == bookLoan.loanId && returned == bookLoan.returned && Objects.equals(loanDate, bookLoan.loanDate) && Objects.equals(dueDate, bookLoan.dueDate) && Objects.equals(appUserList, bookLoan.appUserList) && Objects.equals(bookList, bookLoan.bookList);
+        return loanId == bookLoan.loanId && returned == bookLoan
+                .returned && Objects.equals(loanDate, bookLoan.loanDate)
+                && Objects.equals(dueDate, bookLoan.dueDate)
+                && Objects.equals(borrower, bookLoan.borrower)
+                && Objects.equals(bookLoan, bookLoan.bookLoan);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(loanId, loanDate, dueDate, returned, appUserList, bookList);
+        return Objects.hash(loanId, loanDate, dueDate, returned);
     }
 
     @Override
@@ -139,8 +124,6 @@ public class BookLoan {
                 ", loanDate=" + loanDate +
                 ", dueDate=" + dueDate +
                 ", returned=" + returned +
-                ", appUserList=" + appUserList +
-                ", bookList=" + bookList +
                 '}';
     }
 }

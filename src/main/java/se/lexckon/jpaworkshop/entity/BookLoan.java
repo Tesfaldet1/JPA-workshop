@@ -16,6 +16,7 @@ public class BookLoan {
     @Column(nullable = false)
     private LocalDate loanDate;
     private  LocalDate dueDate;
+    @Column(nullable = false)
     private boolean returned;
 
 
@@ -50,6 +51,23 @@ public class BookLoan {
         this.dueDate = dueDate;
         this.returned = returned;
 
+    }
+
+    public BookLoan(LocalDate loanDate, LocalDate dueDate, boolean returned, AppUser borrower, Book bookLoan) {
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.returned = returned;
+        this.borrower = borrower;
+        this.bookLoan = bookLoan;
+    }
+
+    public BookLoan(int loanId, LocalDate loanDate, LocalDate dueDate, boolean returned, AppUser borrower, Book bookLoan) {
+        this.loanId = loanId;
+        this.loanDate = loanDate;
+        this.dueDate = dueDate;
+        this.returned = returned;
+        this.borrower = borrower;
+        this.bookLoan = bookLoan;
     }
 
     public int getLoanId() {
@@ -97,6 +115,14 @@ public class BookLoan {
     }
 
     public void setBook(Book bookLoan) {
+        this.bookLoan = bookLoan;
+    }
+
+    public Book getBookLoan() {
+        return bookLoan;
+    }
+
+    public void setBookLoan(Book bookLoan) {
         this.bookLoan = bookLoan;
     }
 

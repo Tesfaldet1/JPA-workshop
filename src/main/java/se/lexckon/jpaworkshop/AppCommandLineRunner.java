@@ -49,6 +49,13 @@ public class AppCommandLineRunner implements CommandLineRunner {
         createdJavaBook.addAuthor(authorData);
         createdAuthor.addBook(MicrosoftBookData);
 
+       BookLoan bookLoanData = new BookLoan(LocalDate.parse("1929-11-11"), true);
+        BookLoan  createdBookLoan = bookLonDao.create(bookLoanData);
+        //createdBookLoan.setBookLoan(createdMicBook);
+
+        //JavaBookData.setAuthorSet((Set<Author>) createdAuthor);
+        //MicrosoftBookData.setListOfBook((List<BookLoan>) createdAppUser);
+
 
 
 

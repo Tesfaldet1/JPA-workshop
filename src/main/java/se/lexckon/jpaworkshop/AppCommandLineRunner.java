@@ -31,48 +31,7 @@ public class AppCommandLineRunner implements CommandLineRunner {
      test1();
 
     }
-    public  void test1(){
-        Details detailsData = new Details("Tesfaldet", "tweldemicheal@gmail.com",
-                LocalDate.parse("1989-10-10"));
-        Details createdDetails = detailsDao.create(detailsData);
 
-        AppUser appUserData = new AppUser("Nuna", "nuna123", LocalDate.now(),detailsData);
-        AppUser createdAppUser = appUserDao.create(appUserData);
-
-        Author authorData  = new Author("test", "test");
-        Author createdAuthor = authorDao.create(authorData);
-
-        Book JavaBookData = new Book("1-292-02819-4","Java how to program", 15);
-        Book  MicrosoftBookData = new Book("978938898767","Microsoft Azure Administrator Exam", 15);
-        Book createdJavaBook = bookDao.create(JavaBookData);
-        Book createdMicBook = bookDao.create(MicrosoftBookData);
-        createdJavaBook.addAuthor(authorData);
-        createdAuthor.addBook(MicrosoftBookData);
-
-       BookLoan bookLoanData = new BookLoan(LocalDate.parse("1929-11-11"), true);
-        BookLoan  createdBookLoan = bookLonDao.create(bookLoanData);
-        //createdBookLoan.setBookLoan(createdMicBook);
-
-        //JavaBookData.setAuthorSet((Set<Author>) createdAuthor);
-        //MicrosoftBookData.setListOfBook((List<BookLoan>) createdAppUser);
-
-
-
-
-        //bookLoandata.setBorrower(createdAppUser);
-
-
-
-
-
-
-
-        appUserData.setDetails(createdDetails);
-        System.out.println(createdAppUser);
-
-       //appUserDao.delete(createdAppUser.getAppUserId());
-
-    }
     public void test2(){
         AppUser appUserData = new AppUser("Nuna", "nuna123",
                 LocalDate.now(), new Details("Tesfaldet", "tweldemicheal@gmail.com",
@@ -100,11 +59,46 @@ public class AppCommandLineRunner implements CommandLineRunner {
 
         }
 
+    public  void test1(){
+        Details detailsData = new Details("Tesfaldet", "tweldemicheal@gmail.com",
+                LocalDate.parse("1989-10-10"));
+        Details createdDetails = detailsDao.create(detailsData);
+
+        AppUser appUserData = new AppUser("Nuna", "nuna123", LocalDate.now(),detailsData);
+        AppUser createdAppUser = appUserDao.create(appUserData);
+
+        Author authorData  = new Author("test", "test");
+        Author createdAuthor = authorDao.create(authorData);
+
+        Book JavaBookData = new Book("1-292-02819-4","Java how to program", 15);
+        Book  MicrosoftBookData = new Book("978938898767","Microsoft Azure Administrator Exam", 15);
+        Book createdJavaBook = bookDao.create(JavaBookData);
+        Book createdMicBook = bookDao.create(MicrosoftBookData);
+        createdJavaBook.addAuthor(authorData);
+        createdAuthor.addBook(MicrosoftBookData);
+
+        BookLoan bookLoanData = new BookLoan(LocalDate.parse("1929-11-11"), LocalDate.now(),true,appUserData,createdJavaBook);
+        BookLoan  createdBookLoan = bookLonDao.create(bookLoanData);
+
+        createdBookLoan.setBookLoan(createdMicBook);
+        createdBookLoan.setBookLoan(createdJavaBook);
 
 
 
-    public void test3(){
 
+
+
+
+
+        appUserData.setDetails(createdDetails);
+        System.out.println(createdAppUser);
+
+        //appUserDao.delete(createdAppUser.getAppUserId());
 
     }
+
+
+
+
+
 }
